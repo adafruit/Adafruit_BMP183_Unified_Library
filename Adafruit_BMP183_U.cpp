@@ -417,7 +417,7 @@ float Adafruit_BMP183_Unified::seaLevelForAltitude(float altitude, float atmosph
     @brief  Provides the sensor_t data for this sensor
 */
 /**************************************************************************/
-void Adafruit_BMP183_Unified::getSensor(sensor_t *sensor)
+bool Adafruit_BMP183_Unified::getSensor(sensor_t *sensor)
 {
   /* Clear the sensor_t object */
   memset(sensor, 0, sizeof(sensor_t));
@@ -432,6 +432,8 @@ void Adafruit_BMP183_Unified::getSensor(sensor_t *sensor)
   sensor->max_value   = 300.0F;               // 300..1100 hPa
   sensor->min_value   = 1100.0F;
   sensor->resolution  = 0.01F;                // Datasheet states 0.01 hPa resolution
+  
+  return true;
 }
 
 /**************************************************************************/
