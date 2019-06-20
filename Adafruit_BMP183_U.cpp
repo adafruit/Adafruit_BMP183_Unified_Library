@@ -36,6 +36,9 @@
 
 #define BMP183_USE_DATASHEET_VALS (0) /**< Set to 1 for sanity check **/
 
+/** SPI object **/
+SPIClass *_spi; 
+
 /*!
  *  @brief  Instantiates a new Adafruit_BMP183_Unified class using hardware SPI
  *  @param  SPICS
@@ -51,6 +54,7 @@ Adafruit_BMP183_Unified::Adafruit_BMP183_Unified(int8_t SPICS,
   _clk = _miso = _mosi = -1;
   
   _sensorID = sensorID;
+  *_spi = *theSPI;
 }
 
 /*!

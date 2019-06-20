@@ -82,7 +82,7 @@ class Adafruit_BMP183_Unified : public Adafruit_Sensor
 {
   public:
     Adafruit_BMP183_Unified(int8_t SPICLK, int8_t SPIMISO, int8_t SPIMOSI, int8_t SPICS, int32_t sensorID = -1);
-    Adafruit_BMP183_Unified(int8_t SPICS, int32_t sensorID = -1, SPIClass *theSPI);
+    Adafruit_BMP183_Unified(int8_t SPICS, int32_t sensorID = -1, SPIClass *theSPI = &SPI);
   
     bool  begin(bmp183_mode_t mode = BMP183_MODE_ULTRAHIGHRES);
     float  getTemperature();
