@@ -1,6 +1,19 @@
-#Adafruit Unified BMP183 Driver (Barometric Pressure Sensor) #
+# Adafruit BMP183 [![Build Status](https://travis-ci.org/adafruit/Adafruit_Adafruit_BMP183_Unified_Library.svg?branch=master)](https://travis-ci.org/adafruit/Adafruit_BMP183_Unified_Library)
+ 
+This is a library for our Adafruit BMP183 SPI Barometric Pressure & Altitude Sensor and it's based on [Adafruit Unified Sensor Library](https://github.com/adafruit/Adafruit_Sensor).
 
-This driver is for the Adafruit BMP183 Breakout (http://www.adafruit.com/products/1900), and is based on Adafruit's Unified Sensor Library (Adafruit_Sensor).
+<a href="https://www.adafruit.com/products/1900"><img src="assets/board.jpg" height="300"/></a>
+
+Pick one up today in the adafruit shop!
+  * https://www.adafruit.com/products/1900
+
+These Sensors use SPI to communicate, 4 pins are required to interface
+
+Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
+
+Written by Limor Fried/Ladyada  for Adafruit Industries. BSD license, check license.txt for more information. 
+
+All text above must be included in any redistribution
 
 ## About the BMP183 ##
 

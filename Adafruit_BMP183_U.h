@@ -1,34 +1,31 @@
-/***************************************************************************
-  This is a library for the BMP183 pressure sensor
-
-  Designed specifically to work with the Adafruit BMP183 Breakout 
-  ----> http://www.adafruit.com/products/1900
-
-  These displays use SPI to communicate, 4 pins are required to interface.
-
-  Adafruit invests time and resources providing this open source code,
-  please support Adafruit andopen-source hardware by purchasing products
-  from Adafruit!
-
-  Written by Kevin Townsend for Adafruit Industries.  
-  BSD license, all text above must be included in any redistribution
- ***************************************************************************/
+/*!
+ * @file Adafruit_BMP183_U.h
+ *
+ * Designed specifically to work with the Adafruit BMP183 Breakout 
+ * ----> http://www.adafruit.com/products/1900
+ * 
+ * These sensors use SPI to communicate, 4 pins are required
+ * to interface.
+ * 
+ * Adafruit invests time and resources providing this open source code, 
+ * please support Adafruit and open-source hardware by purchasing 
+ * products from Adafruit!
+ *
+ * Written by Kevin Townsend "KTOWN" for Adafruit Industries.
+ *
+ * BSD license, all text here must be included in any redistribution.
+ *
+ */
 #ifndef __BMP183_H__
 #define __BMP183_H__
 
-#if (ARDUINO >= 100)
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include "Arduino.h"
 
 #include <Adafruit_Sensor.h>
 #include <SPI.h>
 
 
-/*=========================================================================
-    REGISTERS
-    -----------------------------------------------------------------------*/
+/** Registers **/
     enum
     {
       BMP183_REGISTER_CAL_AC1            = 0xAA,  // R   Calibration data (16 bits)
@@ -51,11 +48,8 @@
       BMP183_REGISTER_READTEMPCMD        = 0x2E,
       BMP183_REGISTER_READPRESSURECMD    = 0x34
     };
-/*=========================================================================*/
 
-/*=========================================================================
-    MODE SETTINGS
-    -----------------------------------------------------------------------*/
+/** Mode Settings **/
     typedef enum
     {
       BMP183_MODE_ULTRALOWPOWER          = 0,
@@ -63,32 +57,32 @@
       BMP183_MODE_HIGHRES                = 2,
       BMP183_MODE_ULTRAHIGHRES           = 3
     } bmp183_mode_t;
-/*=========================================================================*/
 
-/*=========================================================================
-    CALIBRATION DATA
-    -----------------------------------------------------------------------*/
+/** Calibration Data **/
     typedef struct
     {
-      int16_t  ac1;
-      int16_t  ac2;
-      int16_t  ac3;
-      uint16_t ac4;
-      uint16_t ac5;
-      uint16_t ac6;
-      int16_t  b1;
-      int16_t  b2;
-      int16_t  mb;
-      int16_t  mc;
-      int16_t  md;
+      int16_t  ac1; /**< Calibration coefficient (ac1) **/
+      int16_t  ac2; /**< Calibration coefficient (ac2) **/
+      int16_t  ac3; /**< Calibration coefficient (ac3) **/
+      uint16_t ac4; /**< Calibration coefficient (ac4) **/
+      uint16_t ac5; /**< Calibration coefficient (ac5) **/
+      uint16_t ac6; /**< Calibration coefficient (ac6) **/
+      int16_t  b1;  /**< Calibration coefficient (b1) **/
+      int16_t  b2;  /**< Calibration coefficient (b2) **/
+      int16_t  mb;  /**< Calibration coefficient (mb) **/
+      int16_t  mc;  /**< Calibration coefficient (mc) **/
+      int16_t  md;  /**< Calibration coefficient (md) **/
     } bmp183_calib_data;
-/*=========================================================================*/
 
+/*!
+ *  @brief  Class that stores state and functions for interacting with
+ *          BMP183
+ */
 class Adafruit_BMP183_Unified : public Adafruit_Sensor
 {
   public:
     Adafruit_BMP183_Unified(int8_t SPICLK, int8_t SPIMISO, int8_t SPIMOSI, int8_t SPICS, int32_t sensorID = -1);
-    Adafruit_BMP183_Unified(int8_t SPICS, int32_t sensorID = -1);
+    Adafruit_BMP183_Unified(int8_t SPICS, int32_t sensorID = -1, SPIClass *theSPI = &SPI);
   
     bool  begin(bmp183_mode_t mode = BMP183_MODE_ULTRAHIGHRES);
     float  getTemperature();
