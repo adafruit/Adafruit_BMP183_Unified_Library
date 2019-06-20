@@ -189,11 +189,6 @@ void Adafruit_BMP183_Unified::readCoefficients(void)
   #endif
 }
 
-/**************************************************************************/
-/*!
-
-*/
-/**************************************************************************/
 int16_t Adafruit_BMP183_Unified::readRawTemperature()
 {
   #if BMP183_USE_DATASHEET_VALS
@@ -206,11 +201,6 @@ int16_t Adafruit_BMP183_Unified::readRawTemperature()
   #endif
 }
 
-/**************************************************************************/
-/*!
-
-*/
-/**************************************************************************/
 int32_t Adafruit_BMP183_Unified::readRawPressure()
 {
   #if BMP183_USE_DATASHEET_VALS

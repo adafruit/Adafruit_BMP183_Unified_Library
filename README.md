@@ -7,7 +7,7 @@ This is a library for our Adafruit BMP183 SPI Barometric Pressure & Altitude Sen
 Pick one up today in the adafruit shop!
   * https://www.adafruit.com/products/1900
 
-These drivers use I2C to communicate, 2 pins are required to interface.
+These Sensors use SPI to communicate, 4 pins are required to interface
 
 Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
 
