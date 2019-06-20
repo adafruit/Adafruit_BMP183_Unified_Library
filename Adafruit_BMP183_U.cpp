@@ -1,52 +1,71 @@
-/***************************************************************************
-  This is a library for the BMP183 pressure sensor
+/*!
+ * @file Adafruit_BMP183_U.cpp
+ *
+ *  @mainpage Adafruit BMP183 Unified
+ *
+ *  @section intro_sec Introduction
+ *
+ *  This is a library for the BMP183 orientation sensor
+ *
+ *  Designed specifically to work with the Adafruit BMP183 055 Breakout.
+ *
+ *  Pick one up today in the adafruit shop!
+ *  ------> https://www.adafruit.com/product/1900
+ *
+ *  These sensors use SPI to communicate, 4 pins are required to interface.
+ *
+ *  Adafruit invests time and resources providing this open source code,
+ *  please support Adafruit andopen-source hardware by purchasing products
+ *  from Adafruit!
+ *
+ *  @section author Author
+ *
+ *  K.Townsend (Adafruit Industries)
+ *
+ *  @section license License
+ *
+ *  MIT license, all text above must be included in any redistribution
+ */
 
-  Designed specifically to work with the Adafruit BMP183 Breakout 
-  ----> http://www.adafruit.com/products/1900
- 
-  These sensors use SPI to communicate, 4 pins are required to interface.
-
-  Adafruit invests time and resources providing this open source code,
-  please support Adafruit andopen-source hardware by purchasing products
-  from Adafruit!
-
-  Written by Kevin Townsend for Adafruit Industries.  
-  BSD license, all text above must be included in any redistribution
- ***************************************************************************/
-
-#if ARDUINO >= 100
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
+#include "Arduino.h"
 #include "SPI.h"
 #include <math.h>
 #include <limits.h>
 
 #include "Adafruit_BMP183_U.h"
 
+#define BMP183_USE_DATASHEET_VALS (0) /**< Set to 1 for sanity check **/
 
-#define BMP183_USE_DATASHEET_VALS (0) /* Set to 1 for sanity check */
-
-
-/***************************************************************************
- CONSTRUCTORS
- ***************************************************************************/
- 
-/**************************************************************************/
 /*!
-    @brief  Instantiates a new Adafruit_BMP183_Unified class
-*/
-/**************************************************************************/
-
+ *  @brief  Instantiates a new Adafruit_BMP183_Unified class using hardware SPI
+ *  @param  SPICS
+ *          cs pin
+ *  @param  sensorID
+ *          id helpful to identify sensor
+ *  @param  *theSPI
+ *          optional SPI object 
+ */
 Adafruit_BMP183_Unified::Adafruit_BMP183_Unified(int8_t SPICS,
-						 int32_t sensorID ) {
+						 int32_t sensorID, SPIClass *theSPI ) {
   _cs = SPICS;
   _clk = _miso = _mosi = -1;
   
   _sensorID = sensorID;
 }
 
+/*!
+ *  @brief  Instantiates a new Adafruit_BMP183_Unified class using hardware SPI
+ *  @param  SPICLK
+ *          SPI chip clock
+ *  @param  SPIMISO
+ *          SPI MISO (Data to microcontroller from sensor)
+ *  @param  SPIMOSI
+ *          SPI MOSI (Data from microcontroller to sensor)
+ *  @param  SPICS
+ *          SPI CS PIN
+ *  @param  sensorID
+ *          id helpful to identify sensor
+ */
 Adafruit_BMP183_Unified::Adafruit_BMP183_Unified(int8_t SPICLK, 
 						 int8_t SPIMISO, 
 						 int8_t SPIMOSI, 
@@ -59,7 +78,6 @@ Adafruit_BMP183_Unified::Adafruit_BMP183_Unified(int8_t SPICLK,
   
   _sensorID = sensorID;
 }
-
 
 /***************************************************************************
  PRIVATE FUNCTIONS
@@ -83,11 +101,9 @@ uint8_t Adafruit_BMP183_Unified::SPIxfer(uint8_t x) {
   }
 }
 
-/**************************************************************************/
 /*!
-    @brief  Writes an 8 bit value over SPI
-*/
-/**************************************************************************/
+ *  @brief  Writes an 8 bit value over SPI
+ */
 void Adafruit_BMP183_Unified::writeCommand(byte reg, byte value)
 {
   digitalWrite(_cs, LOW);
@@ -96,11 +112,9 @@ void Adafruit_BMP183_Unified::writeCommand(byte reg, byte value)
   digitalWrite(_cs, HIGH);
 }
 
-/**************************************************************************/
 /*!
-    @brief  Reads an 8 bit value over I2C
-*/
-/**************************************************************************/
+ *  @brief  Reads an 8 bit value over I2C
+ */
 uint8_t Adafruit_BMP183_Unified::read8(byte reg)
 {
   uint8_t value;
@@ -113,11 +127,9 @@ uint8_t Adafruit_BMP183_Unified::read8(byte reg)
   return value;
 }
 
-/**************************************************************************/
 /*!
-    @brief  Reads a 16 bit value over I2C
-*/
-/**************************************************************************/
+ *  @brief  Reads a 16 bit value over I2C
+ */
 uint16_t Adafruit_BMP183_Unified::read16(byte reg)
 {
   uint16_t value;
@@ -132,21 +144,17 @@ uint16_t Adafruit_BMP183_Unified::read16(byte reg)
   return value;
 }
 
-/**************************************************************************/
 /*!
-    @brief  Reads a signed 16 bit value over I2C
-*/
-/**************************************************************************/
+ *  @brief  Reads a signed 16 bit value over I2C
+ */
 int16_t Adafruit_BMP183_Unified::readS16(byte reg)
 {
   return (int16_t)read16(reg);
 }
 
-/**************************************************************************/
 /*!
-    @brief  Reads the factory-set coefficients
-*/
-/**************************************************************************/
+ *  @brief  Reads the factory-set coefficients
+ */
 void Adafruit_BMP183_Unified::readCoefficients(void)
 {
   #if BMP183_USE_DATASHEET_VALS
@@ -235,16 +243,13 @@ int32_t Adafruit_BMP183_Unified::readRawPressure()
     return p32;
 #endif
 }
-
-/***************************************************************************
- PUBLIC FUNCTIONS
- ***************************************************************************/
  
-/**************************************************************************/
 /*!
-    @brief  Setups the HW
-*/
-/**************************************************************************/
+ *  @brief  Setups the HW
+ *  @param  mode
+ *          selected bmp183 mode
+ *  @return true if successful
+ */
 bool Adafruit_BMP183_Unified::begin(bmp183_mode_t mode)
 {
  
@@ -288,12 +293,11 @@ bool Adafruit_BMP183_Unified::begin(bmp183_mode_t mode)
   return true;
 }
 
-/**************************************************************************/
 /*!
-    @brief  Gets the compensated pressure level in kPa
-*/
-/**************************************************************************/
-float Adafruit_BMP183_Unified::getPressure(void)
+ *  @brief  Gets the compensated pressure level in kPa
+ *  @return pressure value in hPa
+ */
+float Adafruit_BMP183_Unified::getPressure()
 {
   int32_t  ut = 0, up = 0, compp = 0;
   int32_t  x1, x2, b5, b6, x3, b3, p;
@@ -338,12 +342,11 @@ float Adafruit_BMP183_Unified::getPressure(void)
   return compp;
 }
 
-/**************************************************************************/
 /*!
-    @brief  Reads the temperatures in degrees Celsius
-*/
-/**************************************************************************/
-float Adafruit_BMP183_Unified::getTemperature(void)
+ *  @brief  Reads the temperatures in degrees Celsius
+ *  @return temperature in Celsius
+ */
+float Adafruit_BMP183_Unified::getTemperature()
 {
   int32_t UT, X1, X2, B5;     // following ds convention
   float t;
@@ -369,16 +372,14 @@ float Adafruit_BMP183_Unified::getTemperature(void)
   return t;
 }
 
-/**************************************************************************/
 /*!
-    Calculates the altitude (in meters) from the specified atmospheric
-    pressure (in hPa), sea-level pressure (in hPa), and temperature (in �C)
-
-    @param  seaLevel      Sea-level pressure in hPa
-    @param  atmospheric   Atmospheric pressure in hPa
-    @param  temp          Temperature in degrees Celsius
-*/
-/**************************************************************************/
+ *   @brief  Calculates the altitude (in meters) from the specified atmospheric
+ *           pressure (in hPa), sea-level pressure (in hPa), and temperature (in �C)
+ *   @param  seaLevel      Sea-level pressure in hPa
+ *   @param  atmospheric   Atmospheric pressure in hPa
+ *   @param  temp          Temperature in degrees Celsius
+ *   @return               Altitude value in meters
+ */
 float Adafruit_BMP183_Unified::pressureToAltitude(float seaLevel, float atmospheric, float temp)
 {
   /* Hyposometric formula:                      */
@@ -396,6 +397,14 @@ float Adafruit_BMP183_Unified::pressureToAltitude(float seaLevel, float atmosphe
          * (temp + 273.15F)) / 0.0065F;
 }
 
+/*!
+ *   @brief  Calculates the Sea-level pressure (in hPa) from the specified atmospheric
+ *           pressure (in hPa), sea-level pressure (in hPa), and temperature (in �C)
+ *   @param  altitude      Altitude in meters
+ *   @param  atmospheric   Atmospheric pressure in hPa
+ *   @param  temp          Temperature in degrees Celsius
+ *   @return               Sea Level pressure (hPa)
+ */
 float Adafruit_BMP183_Unified::seaLevelForAltitude(float altitude, float atmospheric, float temp)
 {
   /* Hyposometric formula:                      */
@@ -412,11 +421,9 @@ float Adafruit_BMP183_Unified::seaLevelForAltitude(float altitude, float atmosph
 
 
 
-/**************************************************************************/
 /*!
-    @brief  Provides the sensor_t data for this sensor
-*/
-/**************************************************************************/
+ *  @brief  Provides the sensor_t data for this sensor
+ */
 void Adafruit_BMP183_Unified::getSensor(sensor_t *sensor)
 {
   /* Clear the sensor_t object */
@@ -434,11 +441,12 @@ void Adafruit_BMP183_Unified::getSensor(sensor_t *sensor)
   sensor->resolution  = 0.01F;                // Datasheet states 0.01 hPa resolution
 }
 
-/**************************************************************************/
 /*!
-    @brief  Reads the sensor and returns the data as a sensors_event_t
-*/
-/**************************************************************************/
+ *   @brief  Reads the sensor and returns the data as a sensors_event_t
+ *   @param  event
+ *           sensors_event_t event that you want to assign to
+ *   @return true if successful
+ */
 bool Adafruit_BMP183_Unified::getEvent(sensors_event_t *event)
 {
   /* Clear the event */
