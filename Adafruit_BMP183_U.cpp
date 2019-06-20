@@ -54,7 +54,7 @@ Adafruit_BMP183_Unified::Adafruit_BMP183_Unified(int8_t SPICS,
   _clk = _miso = _mosi = -1;
   
   _sensorID = sensorID;
-  *_spi = *theSPI;
+  _spi = theSPI;
 }
 
 /*!
@@ -89,7 +89,7 @@ Adafruit_BMP183_Unified::Adafruit_BMP183_Unified(int8_t SPICLK,
 
 uint8_t Adafruit_BMP183_Unified::SPIxfer(uint8_t x) {
   if (_clk == -1) {
-    return SPI.transfer(x);
+    return _spi->transfer(x);
   } else {
     //Serial.println("Software SPI");
     uint8_t reply = 0;
@@ -259,9 +259,9 @@ bool Adafruit_BMP183_Unified::begin(bmp183_mode_t mode)
  
   // Enable SPI
   if (_clk == -1) {
-    SPI.begin();
-    SPI.setDataMode(SPI_MODE0);
-    SPI.setClockDivider(SPI_CLOCK_DIV16);
+    _spi->begin();
+    _spi->setDataMode(SPI_MODE0);
+    _spi->setClockDivider(SPI_CLOCK_DIV16);
   } else {
     pinMode(_clk, OUTPUT);
     digitalWrite(_clk, HIGH);
