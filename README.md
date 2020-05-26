@@ -1,4 +1,4 @@
-# Adafruit BMP183 [![Build Status](https://travis-ci.org/adafruit/Adafruit_Adafruit_BMP183_Unified_Library.svg?branch=master)](https://travis-ci.org/adafruit/Adafruit_BMP183_Unified_Library)
+# Adafruit BMP183 [![Build Status](https://github.com/adafruit/Adafruit_BMP183_Unified_Library/workflows/Arduino%20Library%20CI/badge.svg)](https://github.com/adafruit/Adafruit_BMP183_Unified_Library/actions)[![Documentation](https://github.com/adafruit/ci-arduino/blob/master/assets/doxygen_badge.svg)](http://adafruit.github.io/Adafruit_BMP183_Unified_Library/html/index.html)
  
 This is a library for our Adafruit BMP183 SPI Barometric Pressure & Altitude Sensor and it's based on [Adafruit Unified Sensor Library](https://github.com/adafruit/Adafruit_Sensor).
 
