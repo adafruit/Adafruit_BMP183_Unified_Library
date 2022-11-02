@@ -186,7 +186,6 @@ int16_t Adafruit_BMP183_Unified::readRawTemperature() {
 #if BMP183_USE_DATASHEET_VALS
   return 27898;
 #else
-  uint16_t t;
   writeCommand(BMP183_REGISTER_CONTROL, BMP183_REGISTER_READTEMPCMD);
   delay(5);
   return read16(BMP183_REGISTER_TEMPDATA);
@@ -240,8 +239,7 @@ bool Adafruit_BMP183_Unified::begin(bmp183_mode_t mode) {
   // Enable SPI
   if (_clk == -1) {
     _spi->begin();
-    _spi->setDataMode(SPI_MODE0);
-    _spi->setClockDivider(SPI_CLOCK_DIV16);
+    _spi->beginTransaction(SPISettings(500000, MSBFIRST, SPI_MODE0));
   } else {
     pinMode(_clk, OUTPUT);
     digitalWrite(_clk, HIGH);
